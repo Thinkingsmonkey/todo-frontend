@@ -1,0 +1,23 @@
+@import "vendors/bootstrap/bootstrap";
+
+@import "helpers/variables";
+@import "helpers/mixins";
+
+// @import "components/section";
+@import "components/add"; 
+@import "components/filters"; 
+@import "components/tasklist"; 
+@import "components/edit"; 
+
+
+@import "base/reset";
+@import "base/base";
+
+@import "layout/nav";
+@import "layout/header";
+
+@import "pages/home";
+@import "pages/login";
+@import "pages/reset";
+
+@import "mediaQuery";

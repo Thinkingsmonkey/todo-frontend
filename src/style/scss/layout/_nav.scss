@@ -1,0 +1,21 @@
+.navbar {
+  padding: 10px 0;
+  width: 100%;
+  position: relative;
+  &__logout {
+    display: none;
+  }
+  &__username {
+    padding: 10px 27px;
+    border-radius: 15px;
+  }
+  .menu:hover .navbar__logout,
+  .navbar__logout:hover {
+    display: block;
+    position: absolute;
+    padding: 10px 27px;
+    top: 100%;
+    left: -36px;
+    border-radius: 15px;
+  }
+}

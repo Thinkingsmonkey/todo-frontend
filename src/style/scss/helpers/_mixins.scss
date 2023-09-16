@@ -1,0 +1,13 @@
+//elements get appended with "__" and the $name
+@mixin e($name, $root) {
+  @at-root   #{$root}__#{$name} {
+    @content;
+  }
+}
+
+//modifiers get appended with "--" and the $name
+@mixin m($name, $root) {
+  @at-root   #{$root}--#{$name} {
+    @content;
+  }
+}

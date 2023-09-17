@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from '../AuthContext';
-import moreImage from "../../images/more.png";
+import moreImage from "../../images/moreDot.png";
 
 const Banner = ({ handleEdit, tasks, setTasks, setShowEdit }) => {
   const { memberId, csrf_access_token } = useAuth();

@@ -100,7 +100,7 @@ const Edit = ({ tasks, setTasks, taskInfo, setShowEdit }) => {
             <h2 className="fw-bold mb-d25">PRIORITY</h2>
             <select
               className=" border border-2 border-filed rounded-pill p-d5 w-100"
-              value={editedTaskInfo.priority}
+              value={editedTaskInfo.priority || "Medium"}
               name="priority"
               onChange={(e) => handleChange(e)}
             >

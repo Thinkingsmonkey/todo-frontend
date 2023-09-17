@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
   );
 
   const [memberId, setMemberId] = useState(
-    JSON.parse(sessionStorage.getItem("memberId")) || ""
+    JSON.parse(sessionStorage.getItem("memberId")) || "0"
   );
 
   useEffect(() => {

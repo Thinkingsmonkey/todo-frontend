@@ -36,7 +36,7 @@ function Reset() {
         const apiUrl = process.env.REACT_APP_API_URL;
         const response = await fetch(apiUrl + "/member/reset", options);
         
-        if (!response.ok) throw new Error("Delete dose not complate");
+        if (!response.ok) throw new Error(response.message);
         navigate("/login");
       } catch (error) {
         alert(error.message);

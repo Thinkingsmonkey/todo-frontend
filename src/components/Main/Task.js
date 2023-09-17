@@ -27,7 +27,7 @@ const Task = ({ task, handleEdit, setTasks }) => {
         },
       };
       const apiUrl = process.env.REACT_APP_API_URL;
-      const response = await fetch(apiUrl + "/tasks" + task.id, options)
+      const response = await fetch(apiUrl + "/tasks/" + task.id, options)
 
       if (!response.ok) throw new Error("delete dose not complate")
       setTasks(preTasks => preTasks.filter(item => item.id !== task.id))

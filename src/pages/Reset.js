@@ -9,36 +9,42 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 function Reset() {
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
-  const [eyesSlash, setEyesSlash] = useState({ eyePassword: true, eyePasswordAgain: true})
+  const [eyesSlash, setEyesSlash] = useState({
+    eyePassword: true,
+    eyePasswordAgain: true,
+  });
   const [resetInfor, setResetInfor] = useState({
     email: "",
     password: "",
     passwordAgain: "",
   });
-  
-  const handleReset = () => {
+
+  const handleReset = async () => {
     if (resetInfor.password === resetInfor.passwordAgain) {
-      const passData = {email: resetInfor.email, password: resetInfor.password};
-      const apiUrl = process.env.REACT_APP_API_URL;
-      fetch(apiUrl + "/member/reset", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(passData)
-      }).then(res => {
-          return res.json()
-        }).then(data => {
-          navigate("/login");
-        }).catch(error => {
-          console.log(error.message);
-        })
-      return
+      try {
+        const passData = {
+          email: resetInfor.email,
+          password: resetInfor.password,
+        };
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(passData),
+        };
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await fetch(apiUrl + "/member/reset", options);
+        
+        if (!response.ok) throw new Error("Delete dose not complate");
+        navigate("/login");
+      } catch (error) {
+        alert(error.message);
+      }
     } else {
       alert("Passwords must be the same!");
     }
-  }
-
+  };
 
   function handleChange(e) {
     setResetInfor((preInfor) => ({
@@ -48,12 +54,15 @@ function Reset() {
   }
 
   const handleClickEye = (e) => {
-    setEyesSlash({...eyesSlash, [e.target.closest('.togglePassword').title]: !eyesSlash[e.target.closest('.togglePassword').title]});
-    const input = e.target.closest('.card__field-group').firstChild
+    setEyesSlash({
+      ...eyesSlash,
+      [e.target.closest(".togglePassword").title]:
+        !eyesSlash[e.target.closest(".togglePassword").title],
+    });
+    const input = e.target.closest(".card__field-group").firstChild;
     const type = input.type === "password" ? "text" : "password";
     input.setAttribute("type", type);
   };
-
 
   useEffect(() => {
     if (isLoggedIn === true) {
@@ -96,8 +105,16 @@ function Reset() {
                   value={resetInfor.password}
                   onChange={(e) => handleChange(e)}
                 />
-                <span title="eyePassword" className="togglePassword" onClick={(e) => handleClickEye(e)} >
-                  {eyesSlash.eyePassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                <span
+                  title="eyePassword"
+                  className="togglePassword"
+                  onClick={(e) => handleClickEye(e)}
+                >
+                  {eyesSlash.eyePassword ? (
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                  ) : (
+                    <FontAwesomeIcon icon={faEye} />
+                  )}
                 </span>
                 <div className="icon">
                   <span className="material-symbols-outlined">key</span>
@@ -112,8 +129,16 @@ function Reset() {
                   value={resetInfor.passwordAgain}
                   onChange={(e) => handleChange(e)}
                 />
-                <span title="eyePasswordAgain" className="togglePassword" onClick={(e) => handleClickEye(e)} >
-                  {eyesSlash.eyePasswordAgain ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                <span
+                  title="eyePasswordAgain"
+                  className="togglePassword"
+                  onClick={(e) => handleClickEye(e)}
+                >
+                  {eyesSlash.eyePasswordAgain ? (
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                  ) : (
+                    <FontAwesomeIcon icon={faEye} />
+                  )}
                 </span>
                 <div className="icon">
                   <span className="material-symbols-outlined">key</span>

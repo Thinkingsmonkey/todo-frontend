@@ -9,6 +9,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 function Reset() {
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("")
   const [eyesSlash, setEyesSlash] = useState({
     eyePassword: true,
     eyePasswordAgain: true,
@@ -35,11 +36,10 @@ function Reset() {
         };
         const apiUrl = process.env.REACT_APP_API_URL;
         const response = await fetch(apiUrl + "/member/reset", options);
-        
-        if (!response.ok) throw new Error(response.message);
+        if (!response.ok) throw new Error((await response.json()).message);
         navigate("/login");
       } catch (error) {
-        alert(error);
+        setErrorMessage(error.message)
       }
     } else {
       alert("Passwords must be the same!");
@@ -145,11 +145,12 @@ function Reset() {
                 </div>
               </div>
               <Link
-                onClick={handleReset}
+                onClick={handleReset} 
                 className="w-100 text-center bg-primary py-1 mb-1"
               >
                 <p className="card__text text-white fw-bold">Reset</p>
               </Link>
+              <p className="error mb-1 text-red">{errorMessage}</p>
               <Link
                 to="/login"
                 className="d-block w-100 text-center py-1  border border-2 border-text"

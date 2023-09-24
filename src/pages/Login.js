@@ -2,40 +2,52 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logoImage from "../images/logo.png";
-import { useAuth } from '../components/AuthContext';
-
+import { useAuth } from "../components/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { loginIn } from "../features/login/loginSlice";
 
 function Login() {
-  const { isLoggedIn, login, memberIdSet, setCsrfRefreshToken, setCsrfAccessToken } = useAuth();
+  const isLogged = useSelector((state) => state.loginer.isLogged);
+  const dispatch = useDispatch();
+
+  const {
+    isLoggedIn,
+    login,
+    memberIdSet,
+    setCsrfRefreshToken,
+    setCsrfAccessToken,
+  } = useAuth();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
   const [isPanding, setIsPanding] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassowrd] = useState("");
   const handleLogin = async () => {
-    setIsPanding(true)
+    setIsPanding(true);
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
       const response = await fetch(apiUrl + "/member/login", {
         method: "POST",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
           username,
-          password
+          password,
         }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error)
-      setIsPanding(false)
-      memberIdSet(data.id)
+      if (!response.ok) throw new Error(data.message);
+      setIsPanding(false);
+      memberIdSet(data.id);
+      dispatch(loginIn());
       login();
       setCsrfRefreshToken(data.csrf_refresh_token);
       setCsrfAccessToken(data.csrf_access_token);
     } catch (error) {
-      setIsPanding(false)
-      alert(error)
+      setIsPanding(false);
+      setErrorMessage(error.message);
     }
   };
 
@@ -43,7 +55,10 @@ function Login() {
     if (isLoggedIn === true) {
       navigate("/");
     }
-  }, [isLoggedIn, navigate]);
+    if (isLogged === true) {
+      console.log(isLogged);
+    }
+  }, [isLoggedIn, navigate, isLogged]);
   return (
     <>
       {!isLoggedIn && (
@@ -84,8 +99,17 @@ function Login() {
                 onClick={handleLogin}
                 className="w-100 text-center bg-primary py-1 mb-1 border-0"
               >
-                <p className="card__text text-white fw-bold">{isPanding ? "Panding..." : "Login"}</p>
+                <p className="card__text text-white fw-bold">
+                  {isPanding ? "Panding..." : "Login"}
+                </p>
               </button>
+              <p
+                className={`error text-red ${
+                  errorMessage === "" ? "" : "mb-1"
+                }`}
+              >
+                {errorMessage}
+              </p>
               <Link to="/reset" className="mb-1">
                 <p className="text-text">
                   Forgot Password? Click here to reset

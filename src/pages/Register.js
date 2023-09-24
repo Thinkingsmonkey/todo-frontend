@@ -6,6 +6,7 @@ import { useAuth } from '../components/AuthContext';
 
 function Register() {
   const { isLoggedIn } = useAuth();
+  const [errorMessage, setErrorMessage] = useState("")
   const [isPanding, setIsPanding] = useState(true)
   const navigate = useNavigate();
 
@@ -23,11 +24,10 @@ function Register() {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(newMember)
       })
-      if (!response.ok) throw new Error("Register dose not success")
-      const data = await response.json()
+      if (!response.ok) throw new Error((await response.json()).message)
       navigate('/login')
     } catch (error) {
-      alert(error.message)
+      setErrorMessage(error.message)
     }
   }
   
@@ -91,6 +91,7 @@ function Register() {
                 <button onClick={handleSignup} className="w-100 text-center bg-primary py-1 mb-1">
                   <p className="card__text text-white fw-bold">Sign Up</p>
                 </button>
+                <p className="error mb-1 text-red">{errorMessage}</p>
                 <Link to="/login" className="d-block w-100 text-center py-1  border border-2 border-text">
                   <p className="card__text text-text fw-bold">
                     Back to login

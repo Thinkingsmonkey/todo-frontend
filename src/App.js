@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Reset from "./pages/Reset";
 import { AuthProvider } from "./components/AuthContext";
-
+import Counter from "./features/counter/Counter"
 function App() {
   const [login, setLogin] = useState(false);
 
@@ -25,6 +25,7 @@ function App() {
           />
         </Routes>
       </Router>
+      <Counter />
     </AuthProvider>
   );
 }

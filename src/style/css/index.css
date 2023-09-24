@@ -14714,7 +14714,7 @@ body {
 }
 
 .login-container {
-  width: 28rem;
+  max-width: 28rem;
   height: 100vh;
   margin: 0 auto;
   padding: 0;
@@ -14723,7 +14723,7 @@ body {
 
 .card__shadow {
   height: 32rem;
-  width: 28rem;
+  max-width: 28rem;
   box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.12);
   top: calc(50% + 10px);
   left: calc(50% + 10px);

@@ -45,7 +45,7 @@ function Home() {
           },
         };
         const apiUrl = process.env.REACT_APP_API_URL;
-        let url = `${apiUrl}/members/${memberId}/tasks`;
+        let url = `${apiUrl}/member/${memberId}/tasks`;
         const response = await fetch(url, options);
         if (response.status === 401) logout()
         if (response.ok !== true)

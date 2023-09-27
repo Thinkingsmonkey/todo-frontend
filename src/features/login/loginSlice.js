@@ -9,7 +9,6 @@ export const loginSlice = createSlice({
   reducers: {
     loginIn: (state) => {
       state.isLogged = true;
-      sessionStorage.setItem("isLogged", JSON.stringify(isLogged));
     },
     loginOut: (state) => {
       state.isLogged = false;
